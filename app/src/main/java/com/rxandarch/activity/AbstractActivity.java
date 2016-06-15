@@ -9,17 +9,25 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.rxandarch.gcm.GcmRxBus;
+
+import javax.inject.Inject;
+
+import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
-public class AbstractActivity extends AppCompatActivity {
+public abstract class AbstractActivity extends AppCompatActivity implements Action1<Object> {
 
 
     protected CompositeSubscription compositeSubscription = new CompositeSubscription();
 
+    @Inject
+    GcmRxBus gcmRxBus;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        compositeSubscription.add(gcmRxBus.getObservable().subscribe(this));
     }
 
     @Override
@@ -28,6 +36,5 @@ public class AbstractActivity extends AppCompatActivity {
         if (compositeSubscription.isUnsubscribed())
             compositeSubscription.unsubscribe();
     }
-
 
 }

@@ -1,6 +1,5 @@
 package com.rxandarch.rest;
 
-
 /* Copyright (C) Fraunhofer IESE - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
@@ -9,6 +8,7 @@ package com.rxandarch.rest;
 
 import com.rxandarch.realm.Person;
 
+import okhttp3.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -23,16 +23,19 @@ public interface DDApi {
 
 
     @GET("/authentication/session")
-    Observable<String> getSession(@Header("openidtoken") String username, @Header("email") String email, @Header("password") String password);
+    Observable<String> getSession(@Header("openidtoken") String openIdToken, @Header("email") String email, @Header("password") String password);
 
     @GET("/person")
-    Observable<Person> getPerson();
+    Observable<Person> getPerson(@Header("sessionId") String sessionId);
 
     @POST("/person")
     Observable<Person> postPerson(@Body Person person, @Header("identity") String identity, @Header("password") String password);
 
     @PUT("/person")
     Observable<Person> putPerson(@Body Person person);
+
+    @POST("/image")
+    Observable<Response> postIdeaImage();
 
 
 }

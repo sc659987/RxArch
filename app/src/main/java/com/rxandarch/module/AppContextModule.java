@@ -9,6 +9,9 @@ package com.rxandarch.module;
 import android.app.Application;
 import android.content.Context;
 
+import com.rxandarch.gcm.GcmRxBus;
+import com.rxandarch.rest.RestHandler;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -28,4 +31,19 @@ public class AppContextModule {
     Context getContext() {
         return mApp.getApplicationContext();
     }
+
+    @Provides
+    @Singleton
+    GcmRxBus gcmRxBus() {
+        return new GcmRxBus();
+    }
+
+    @Provides
+    @Singleton
+    RestHandler getRestHandler(){
+        return new RestHandler();
+    }
+
+
+
 }

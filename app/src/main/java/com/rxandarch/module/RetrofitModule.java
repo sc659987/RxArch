@@ -17,6 +17,7 @@ import com.rxandarch.rest.DDApi;
 import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -33,6 +34,7 @@ public class RetrofitModule {
     Context context;
 
     @Provides
+    @Singleton
     DDApi provideDDServerInterface() {
 
         Gson gson = new GsonBuilder()
@@ -48,14 +50,9 @@ public class RetrofitModule {
                         .addHeader("User-Agent", Build.MANUFACTURER
                                 + " " + Build.MODEL + ", " +
                                 "Android " + Build.VERSION.RELEASE
-                                + " (" + Build.VERSION.SDK_INT).build());
+                                + " (" + Build.VERSION.SDK_INT + ")").build());
             }
         });
-
-
-        //System.out.print(context.getCacheDir().toString());
-
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getString(R.string.baseServiceUrl))
                 .client(okHttpClient)
